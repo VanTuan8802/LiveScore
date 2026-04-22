@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		FA3D6ACE2F952CFD002280F1 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = FA3D6ACD2F952CFD002280F1 /* Factory */; };
+		FA3D6BA62F991DE6002280F1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FA3D6BA52F991DE6002280F1 /* Alamofire */; };
+		FA3D6BA92F991DFD002280F1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FA3D6BA82F991DFD002280F1 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA3D6BA92F991DFD002280F1 /* Kingfisher in Frameworks */,
 				FA3D6ACE2F952CFD002280F1 /* Factory in Frameworks */,
+				FA3D6BA62F991DE6002280F1 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +88,8 @@
 			name = LiveScore;
 			packageProductDependencies = (
 				FA3D6ACD2F952CFD002280F1 /* Factory */,
+				FA3D6BA52F991DE6002280F1 /* Alamofire */,
+				FA3D6BA82F991DFD002280F1 /* Kingfisher */,
 			);
 			productName = LiveScore;
 			productReference = FA3D6A1B2F951AAE002280F1 /* LiveScore.app */;
@@ -115,6 +121,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				FA3D6ACC2F952CFD002280F1 /* XCRemoteSwiftPackageReference "Factory" */,
+				FA3D6BA42F991DE6002280F1 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FA3D6BA72F991DFD002280F1 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FA3D6A1C2F951AAE002280F1 /* Products */;
@@ -370,6 +378,22 @@
 				minimumVersion = 2.5.3;
 			};
 		};
+		FA3D6BA42F991DE6002280F1 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.11.2;
+			};
+		};
+		FA3D6BA72F991DFD002280F1 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.8.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -377,6 +401,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA3D6ACC2F952CFD002280F1 /* XCRemoteSwiftPackageReference "Factory" */;
 			productName = Factory;
+		};
+		FA3D6BA52F991DE6002280F1 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA3D6BA42F991DE6002280F1 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		FA3D6BA82F991DFD002280F1 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA3D6BA72F991DFD002280F1 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -12,6 +12,9 @@
         }
       }
     },
+    "Error" : {
+
+    },
     "favorites" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -32,6 +35,9 @@
     "Live Score" : {
 
     },
+    "Loading..." : {
+
+    },
     "myTeam" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -42,6 +48,12 @@
           }
         }
       }
+    },
+    "No matches today." : {
+
+    },
+    "Retry" : {
+
     },
     "today" : {
       "extractionState" : "manual",
