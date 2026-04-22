@@ -11,7 +11,7 @@ import SwiftUI
 import Factory
 
 struct TabBarView: View {
-    @InjectedObject(\.todayNavi) private var todayNavi: Navigation
+    @InjectedObject(\.matchesNavi) private var matchesNavi: Navigation
     @InjectedObject(\.statistics) private var statisticNavi: Navigation
     @InjectedObject(\.budget) private var budgetNavi: Navigation
     @InjectedObject(\.setting) private var settingNavi: Navigation
@@ -21,12 +21,12 @@ struct TabBarView: View {
     
     var body: some View {
         TabView(selection: $app.activeTab) {
-            NavigationRoot(destination: .today, navigation: todayNavi)
+            NavigationRoot(destination: .matches, navigation: matchesNavi)
                 .tabItem {
-                    Image("today_tab_normal")
-                    Text(String(localized: .today))
+                    Image("matches_tab_normal")
+                    Text(String(localized: .matches))
                 }
-                .tag(TabBarItem.today)
+                .tag(TabBarItem.matches)
 
             NavigationRoot(destination: .competitions, navigation: statisticNavi)
                 .tabItem {
@@ -53,7 +53,7 @@ struct TabBarView: View {
         .onAppear {
             guard !isFirstAppear else { return }
             isFirstAppear = true
-            app.navi = todayNavi
+            app.navi = matchesNavi
             setupTabBarAppearance()
         }
         .onChange(of: app.activeTab) { _, tab in
@@ -64,7 +64,7 @@ struct TabBarView: View {
 
     private func didSelectTab(_ tab: TabBarItem) {
         switch tab {
-        case .today: app.navi = todayNavi
+        case .matches: app.navi = matchesNavi
         case .competitions: app.navi = statisticNavi
         case .favorites: app.navi = budgetNavi
         case .myTeam: app.navi = settingNavi

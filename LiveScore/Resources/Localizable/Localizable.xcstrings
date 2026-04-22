@@ -55,13 +55,13 @@
     "Retry" : {
 
     },
-    "today" : {
+    "matches" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Today"
+            "value" : "Matches"
           }
         }
       }

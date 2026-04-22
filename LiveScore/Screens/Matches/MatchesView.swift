@@ -1,5 +1,5 @@
 //
-//  TodayView.swift
+//  MatchesView.swift
 //  LiveScore
 //
 //  Created by VanTuan8802 on 19/4/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TodayView: View {
+struct MatchesView: View {
     @State private var matches: [Match] = []
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
@@ -43,7 +43,7 @@ struct TodayView: View {
                     .listStyle(.plain)
                 }
             }
-            .navigationTitle(Text(String(localized: .today)))
+            .navigationTitle(Text(String(localized: .matches)))
             .task { await loadMatches() }
             .refreshable { await loadMatches() }
         }
@@ -58,25 +58,25 @@ struct TodayView: View {
             let today = Self.dateFormatter.string(from: Date())
             let filters = MatchFilters(dateFrom: today, dateTo: today)
 
-            print("[TodayView] Fetching matches for \(today)")
+            print("[MatchesView] Fetching matches for \(today)")
             let response: MatchesResponse = try await APIService.shared
                 .request(.matchesToday(filters: filters))
 
-            print("[TodayView] Total matches: \(response.matches.count)")
+            print("[MatchesView] Total matches: \(response.matches.count)")
             if let count = response.resultSet?.count {
-                print("[TodayView] ResultSet count: \(count)")
+                print("[MatchesView] ResultSet count: \(count)")
             }
             for match in response.matches {
                 let home = match.homeTeam.name ?? match.homeTeam.tla ?? "-"
                 let away = match.awayTeam.name ?? match.awayTeam.tla ?? "-"
                 let homeScore = match.score.fullTime?.home.map(String.init) ?? "-"
                 let awayScore = match.score.fullTime?.away.map(String.init) ?? "-"
-                print("[TodayView] #\(match.id) [\(match.status)] \(home) \(homeScore)-\(awayScore) \(away) @ \(match.utcDate)")
+                print("[MatchesView] #\(match.id) [\(match.status)] \(home) \(homeScore)-\(awayScore) \(away) @ \(match.utcDate)")
             }
 
             matches = response.matches
         } catch {
-            print("[TodayView] Error: \(error)")
+            print("[MatchesView] Error: \(error)")
             errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
         }
     }
@@ -139,5 +139,5 @@ private struct MatchRow: View {
 }
 
 #Preview {
-    TodayView()
+    MatchesView()
 }
