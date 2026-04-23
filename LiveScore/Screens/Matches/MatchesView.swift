@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MatchesView: View {
-    @State private var matches: [Match] = []
+    @State private var matches: [AFFixtureResponse] = []
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
 
@@ -55,26 +55,23 @@ struct MatchesView: View {
         defer { isLoading = false }
 
         do {
+            _ = await RemoteConfigManager.shared.fetchAndActivate()
+
             let today = Self.dateFormatter.string(from: Date())
-            let filters = MatchFilters(dateFrom: today, dateTo: today)
 
             print("[MatchesView] Fetching matches for \(today)")
-            let response: MatchesResponse = try await APIService.shared
-                .request(.matchesToday(filters: filters))
+            let response = try await MatchesService.shared.getMatchesByDate(date: today)
 
-            print("[MatchesView] Total matches: \(response.matches.count)")
-            if let count = response.resultSet?.count {
-                print("[MatchesView] ResultSet count: \(count)")
-            }
-            for match in response.matches {
-                let home = match.homeTeam.name ?? match.homeTeam.tla ?? "-"
-                let away = match.awayTeam.name ?? match.awayTeam.tla ?? "-"
-                let homeScore = match.score.fullTime?.home.map(String.init) ?? "-"
-                let awayScore = match.score.fullTime?.away.map(String.init) ?? "-"
-                print("[MatchesView] #\(match.id) [\(match.status)] \(home) \(homeScore)-\(awayScore) \(away) @ \(match.utcDate)")
+            print("[MatchesView] Total matches: \(response.count)")
+            for match in response {
+                let home = match.teams.home.name
+                let away = match.teams.away.name
+                let homeScore = match.goals.home.map(String.init) ?? "-"
+                let awayScore = match.goals.away.map(String.init) ?? "-"
+                print("[MatchesView] #\(match.fixture.id) [\(match.fixture.status.short)] \(home) \(homeScore)-\(awayScore) \(away) @ \(match.fixture.date)")
             }
 
-            matches = response.matches
+            matches = response
         } catch {
             print("[MatchesView] Error: \(error)")
             errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
@@ -92,28 +89,26 @@ struct MatchesView: View {
 }
 
 private struct MatchRow: View {
-    let match: Match
+    let match: AFFixtureResponse
 
     var body: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                if let competition = match.competition?.name {
-                    Text(competition)
-                        .font(.medium12)
-                        .foregroundColor(.secondary)
-                }
+                Text(match.league.name)
+                    .font(.medium12)
+                    .foregroundColor(.secondary)
                 HStack {
-                    Text(match.homeTeam.name ?? match.homeTeam.tla ?? "-")
+                    Text(match.teams.home.name)
                         .font(.semibold14)
                     Spacer()
                     Text(scoreText)
                         .font(.semibold14)
                 }
                 HStack {
-                    Text(match.awayTeam.name ?? match.awayTeam.tla ?? "-")
+                    Text(match.teams.away.name)
                         .font(.regular14)
                     Spacer()
-                    Text(Self.timeFormatter.string(from: match.utcDate))
+                    Text(Self.timeFormatter.string(from: match.fixture.date))
                         .font(.regular14)
                         .foregroundColor(.secondary)
                 }
@@ -123,12 +118,12 @@ private struct MatchRow: View {
     }
 
     private var scoreText: String {
-        let home = match.score.fullTime?.home
-        let away = match.score.fullTime?.away
+        let home = match.goals.home
+        let away = match.goals.away
         if let home, let away {
             return "\(home) - \(away)"
         }
-        return match.status
+        return match.fixture.status.short
     }
 
     private static let timeFormatter: DateFormatter = {

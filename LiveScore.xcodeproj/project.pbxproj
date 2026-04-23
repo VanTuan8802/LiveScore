@@ -10,6 +10,7 @@
 		FA3D6ACE2F952CFD002280F1 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = FA3D6ACD2F952CFD002280F1 /* Factory */; };
 		FA3D6BA62F991DE6002280F1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FA3D6BA52F991DE6002280F1 /* Alamofire */; };
 		FA3D6BA92F991DFD002280F1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FA3D6BA82F991DFD002280F1 /* Kingfisher */; };
+		FA3D6C712F9A6332002280F1 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = FA3D6C702F9A6332002280F1 /* FirebaseRemoteConfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,17 +21,29 @@
 		FA3D6B412F97D27D002280F1 /* Exceptions for "LiveScore" folder in "LiveScore" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Core/Firebase/RemoteConfigManager.swift,
 				Resources/Info.plist,
 			);
 			target = FA3D6A1A2F951AAE002280F1 /* LiveScore */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		FA3D6C762F9A6384002280F1 /* Exceptions for "LiveScore" folder in "Copy Bundle Resources" phase from "LiveScore" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = FA3D6A192F951AAE002280F1 /* Resources */;
+			membershipExceptions = (
+				Core/Firebase/RemoteConfigManager.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FA3D6A1D2F951AAE002280F1 /* LiveScore */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				FA3D6B412F97D27D002280F1 /* Exceptions for "LiveScore" folder in "LiveScore" target */,
+				FA3D6C762F9A6384002280F1 /* Exceptions for "LiveScore" folder in "Copy Bundle Resources" phase from "LiveScore" target */,
 			);
 			path = LiveScore;
 			sourceTree = "<group>";
@@ -45,6 +58,7 @@
 				FA3D6BA92F991DFD002280F1 /* Kingfisher in Frameworks */,
 				FA3D6ACE2F952CFD002280F1 /* Factory in Frameworks */,
 				FA3D6BA62F991DE6002280F1 /* Alamofire in Frameworks */,
+				FA3D6C712F9A6332002280F1 /* FirebaseRemoteConfig in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +104,7 @@
 				FA3D6ACD2F952CFD002280F1 /* Factory */,
 				FA3D6BA52F991DE6002280F1 /* Alamofire */,
 				FA3D6BA82F991DFD002280F1 /* Kingfisher */,
+				FA3D6C702F9A6332002280F1 /* FirebaseRemoteConfig */,
 			);
 			productName = LiveScore;
 			productReference = FA3D6A1B2F951AAE002280F1 /* LiveScore.app */;
@@ -123,6 +138,7 @@
 				FA3D6ACC2F952CFD002280F1 /* XCRemoteSwiftPackageReference "Factory" */,
 				FA3D6BA42F991DE6002280F1 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				FA3D6BA72F991DFD002280F1 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				FA3D6C6F2F9A6332002280F1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FA3D6A1C2F951AAE002280F1 /* Products */;
@@ -300,7 +316,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = vantuan8802.develop.LiveScore;
+				PRODUCT_BUNDLE_IDENTIFIER = vantuan8802.develop.livescore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -334,7 +350,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = vantuan8802.develop.LiveScore;
+				PRODUCT_BUNDLE_IDENTIFIER = vantuan8802.develop.livescore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -394,6 +410,14 @@
 				minimumVersion = 8.8.1;
 			};
 		};
+		FA3D6C6F2F9A6332002280F1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.12.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -411,6 +435,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA3D6BA72F991DFD002280F1 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		FA3D6C702F9A6332002280F1 /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA3D6C6F2F9A6332002280F1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
