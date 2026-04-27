@@ -21,29 +21,17 @@
 		FA3D6B412F97D27D002280F1 /* Exceptions for "LiveScore" folder in "LiveScore" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Core/Firebase/RemoteConfigManager.swift,
 				Resources/Info.plist,
 			);
 			target = FA3D6A1A2F951AAE002280F1 /* LiveScore */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		FA3D6C762F9A6384002280F1 /* Exceptions for "LiveScore" folder in "Copy Bundle Resources" phase from "LiveScore" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = FA3D6A192F951AAE002280F1 /* Resources */;
-			membershipExceptions = (
-				Core/Firebase/RemoteConfigManager.swift,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FA3D6A1D2F951AAE002280F1 /* LiveScore */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				FA3D6B412F97D27D002280F1 /* Exceptions for "LiveScore" folder in "LiveScore" target */,
-				FA3D6C762F9A6384002280F1 /* Exceptions for "LiveScore" folder in "Copy Bundle Resources" phase from "LiveScore" target */,
 			);
 			path = LiveScore;
 			sourceTree = "<group>";

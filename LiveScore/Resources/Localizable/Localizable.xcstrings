@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "->" : {
+
+    },
+    "(%@)" : {
+
+    },
+    "away_short" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Away"
+          }
+        }
+      }
+    },
     "competitions" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -29,6 +46,17 @@
     "Hello, World!" : {
 
     },
+    "home_short" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
+          }
+        }
+      }
+    },
     "Key" : {
       "extractionState" : "manual"
     },
@@ -37,6 +65,17 @@
     },
     "Loading..." : {
 
+    },
+    "matches" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matches"
+          }
+        }
+      }
     },
     "myTeam" : {
       "extractionState" : "manual",
@@ -55,13 +94,24 @@
     "Retry" : {
 
     },
-    "matches" : {
+    "team_a_home" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Matches"
+            "value" : "Team A (Home)"
+          }
+        }
+      }
+    },
+    "team_b_away" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Team B (Away)"
           }
         }
       }
