@@ -16,13 +16,13 @@ struct LineUpTab: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             if isLoading {
-                ProgressView("Loading lineup...")
+                ProgressView(String(localized: .loading_lineup))
             } else if let errorMessage {
                 Text(errorMessage)
                     .font(.regular14)
                     .foregroundColor(.secondary)
             } else if lineups.isEmpty {
-                Text("No lineup available.")
+                Text(String(localized: .no_lineup_available))
                     .font(.regular14)
                     .foregroundColor(.secondary)
             } else {
@@ -37,7 +37,7 @@ struct LineUpTab: View {
                                     Text(lineup.team.name)
                                         .font(.semibold20)
                                         .foregroundColor(.primary)
-                                    Text("Formation: \(lineup.formation ?? "-")")
+                                    Text(String(format: String(localized: .formation_format), lineup.formation ?? "-"))
                                         .font(.regular14)
                                         .foregroundColor(.secondary)
                                 }
@@ -51,7 +51,7 @@ struct LineUpTab: View {
 
                         if expandedLineupIDs.contains(lineup.id) {
                             Divider()
-                            Text("Starting XI")
+                            Text(String(localized: .starting_xi))
                                 .font(.semibold16)
                                 .foregroundColor(Color("primary"))
 
@@ -61,7 +61,7 @@ struct LineUpTab: View {
 
                             if !lineup.substitutes.isEmpty {
                                 Divider()
-                                Text("Substitutes")
+                                Text(String(localized: .substitutes))
                                     .font(.semibold16)
                                     .foregroundColor(Color("primary"))
 

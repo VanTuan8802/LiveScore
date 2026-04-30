@@ -34,7 +34,7 @@ struct MatcheDetailView: View {
                 } label: {
                     HStack {
                         Image(systemName: "play.rectangle.fill")
-                        Text("Watch highlights on YouTube")
+                        Text(String(localized: .watch_highlights_on_youtube))
                             .font(.semibold16)
                         Spacer()
                         Image(systemName: "arrow.up.forward.square")
@@ -50,7 +50,7 @@ struct MatcheDetailView: View {
                 }
                 .buttonStyle(.plain)
 
-                Picker("Detail tabs", selection: $selectedTab) {
+                Picker(String(localized: .detail_tabs), selection: $selectedTab) {
                     ForEach(DetailTab.allCases) { tab in
                         Text(tab.rawValue).tag(tab)
                     }
@@ -82,7 +82,7 @@ struct MatcheDetailView: View {
             .padding(16)
         }
         .background(Color(.systemGray6).ignoresSafeArea())
-        .navigationTitle("Match Details")
+        .navigationTitle(String(localized: .match_details_title))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             await viewModel.loadData()
@@ -150,8 +150,8 @@ struct MatcheDetailView: View {
     private var statusText: String {
         let status = viewModel.match.fixture.status.short
         switch status {
-        case "FT": return "Match Finished"
-        case "NS": return "Not Started • \(kickoffText)"
+        case "FT": return String(localized: .match_finished)
+        case "NS": return String(localized: .not_started_format, kickoffText)
         default: return status
         }
     }

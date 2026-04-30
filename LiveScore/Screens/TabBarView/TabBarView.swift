@@ -54,7 +54,7 @@ struct TabBarView: View {
             NavigationRoot(destination: .setting, navigation: settingNavi)
                 .tabItem {
                     Label {
-                        Text(String(localized: "setting"))
+                        Text(String(localized: .setting))
                     } icon: {
                         tabIcon("setting_tab_normal")
                     }

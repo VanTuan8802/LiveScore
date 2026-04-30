@@ -32,7 +32,7 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
         case .favorites:
             return String(localized: .favorites)
         case .setting:
-            return String(localized: "setting")
+            return String(localized: .setting)
         }
     }
 
