@@ -20,23 +20,23 @@ struct MatchesView: View {
         NavigationStack {
             Group {
                 if viewModel.isLoading {
-                    ProgressView("Loading...")
+                    ProgressView(String(localized: .loading))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if let errorMessage = viewModel.errorMessage {
                     VStack(spacing: 12) {
-                        Text("Error")
+                        Text(String(localized: .error_title))
                             .font(.semibold20)
                         Text(errorMessage)
                             .font(.regular14)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.secondary)
                             .padding(.horizontal, 24)
-                        Button("Retry") { Task { await viewModel.loadMatches() } }
+                        Button(String(localized: .retry_action)) { Task { await viewModel.loadMatches() } }
                             .font(.semibold14)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.matches.isEmpty {
-                    Text("No matches today.")
+                    Text(String(localized: .no_matches_today))
                         .font(.regular16)
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -50,12 +50,12 @@ struct MatchesView: View {
                             .padding(.top, 6)
 
                             if let liveMatch {
-                                Text("Live Match")
+                                Text(String(localized: .live_match_title))
                                     .font(.semibold20)
                                 LiveMatchCard(match: liveMatch)
                             }
 
-                            Text("Today Match")
+                            Text(String(localized: .today_match_title))
                                 .font(.semibold20)
 
                             LeagueChipSelector(
@@ -114,7 +114,7 @@ struct MatchesView: View {
                 NavigationStack {
                     VStack {
                         DatePicker(
-                            "Select date",
+                            String(localized: .select_date),
                             selection: $selectedDate,
                             displayedComponents: [.date]
                         )
@@ -122,11 +122,11 @@ struct MatchesView: View {
                         .padding()
                         Spacer()
                     }
-                    .navigationTitle("Choose date")
+                    .navigationTitle(String(localized: .choose_date))
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
-                            Button("Done") { showDatePicker = false }
+                            Button(String(localized: .done_action)) { showDatePicker = false }
                         }
                     }
                 }

@@ -23,31 +23,43 @@ struct TabBarView: View {
         TabView(selection: $app.activeTab) {
             NavigationRoot(destination: .matches, navigation: matchesNavi)
                 .tabItem {
-                    Image("matches_tab_normal")
-                    Text(String(localized: .matches))
+                    Label {
+                        Text(String(localized: .matches))
+                    } icon: {
+                        tabIcon("matches_tab_normal")
+                    }
                 }
                 .tag(TabBarItem.matches)
 
             NavigationRoot(destination: .competitions, navigation: statisticNavi)
                 .tabItem {
-                    Image("competitions_tab_normal")
-                    Text(String(localized: .competitions))
+                    Label {
+                        Text(String(localized: .competitions))
+                    } icon: {
+                        tabIcon("competitions_tab_normal")
+                    }
                 }
                 .tag(TabBarItem.competitions)
 
             NavigationRoot(destination: .favorites, navigation: budgetNavi)
                 .tabItem {
-                    Image("favorites_tab_normal")
-                    Text(String(localized: .favorites))
+                    Label {
+                        Text(String(localized: .favorites))
+                    } icon: {
+                        tabIcon("favorites_tab_normal")
+                    }
                 }
                 .tag(TabBarItem.favorites)
 
-            NavigationRoot(destination: .myTeam, navigation: settingNavi)
+            NavigationRoot(destination: .setting, navigation: settingNavi)
                 .tabItem {
-                    Image("my_team_tab_normal")
-                    Text(String(localized: .myTeam))
+                    Label {
+                        Text(String(localized: .setting))
+                    } icon: {
+                        tabIcon("setting_tab_normal")
+                    }
                 }
-                .tag(TabBarItem.myTeam)
+                .tag(TabBarItem.setting)
         }
         .tint(Color("primary"))
         .onAppear {
@@ -67,7 +79,7 @@ struct TabBarView: View {
         case .matches: app.navi = matchesNavi
         case .competitions: app.navi = statisticNavi
         case .favorites: app.navi = budgetNavi
-        case .myTeam: app.navi = settingNavi
+        case .setting: app.navi = settingNavi
         }
     }
 
@@ -86,6 +98,14 @@ struct TabBarView: View {
 
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
+
+    @ViewBuilder
+    private func tabIcon(_ name: String) -> some View {
+        Image(name)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 32, height: 32)
     }
 }
 

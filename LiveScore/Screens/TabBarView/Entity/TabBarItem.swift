@@ -21,7 +21,7 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
     case matches
     case competitions
     case favorites
-    case myTeam
+    case setting
 
     var title: String {
         switch self {
@@ -31,8 +31,8 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
             return String(localized: .competitions)
         case .favorites:
             return String(localized: .favorites)
-        case .myTeam:
-            return String(localized: .myTeam)
+        case .setting:
+            return String(localized: .setting)
         }
     }
 
@@ -44,8 +44,8 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
             return Image("competitions_tab_normal")
         case .favorites:
             return Image("favorites_tab_normal")
-        case .myTeam:
-            return Image("my_team_tab_normal")
+        case .setting:
+            return Image("setting_tab_normal")
         }
     }
 
@@ -57,8 +57,8 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
             return Image("competitions_tab_selected")
         case .favorites:
             return Image("favorites_tab_selected")
-        case .myTeam:
-            return Image("my_team_tab_selected")
+        case .setting:
+            return Image("setting_tab_selected")
         }
     }
 
