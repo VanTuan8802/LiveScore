@@ -18,15 +18,15 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
         lhs.rawValue < rhs.rawValue
     }
 
-    case today
+    case matches
     case competitions
     case favorites
     case myTeam
 
     var title: String {
         switch self {
-        case .today:
-            return String(localized: .today)
+        case .matches:
+            return String(localized: .matches)
         case .competitions:
             return String(localized: .competitions)
         case .favorites:
@@ -38,8 +38,8 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
 
     var iconNormal: Image {
         switch self {
-        case .today:
-            return Image("today_tab_normal")
+        case .matches:
+            return Image("matches_tab_normal")
         case .competitions:
             return Image("competitions_tab_normal")
         case .favorites:
@@ -51,8 +51,8 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
 
     var iconSelected: Image {
         switch self {
-        case .today:
-            return Image("today_tab_selected")
+        case .matches:
+            return Image("matches_tab_selected")
         case .competitions:
             return Image("competitions_tab_selected")
         case .favorites:

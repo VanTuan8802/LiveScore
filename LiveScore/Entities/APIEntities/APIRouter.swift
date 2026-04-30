@@ -10,19 +10,23 @@ import Foundation
 import Alamofire
 
 enum APIRouter: URLRequestConvertible {
-    case areas
-    case competitions
-    case competition(id: Int)
-    case competitionMatches(id: Int, filters: MatchFilters = .init())
-    case competitionTeams(id: Int, season: Int? = nil)
-    case competitionStandings(id: Int, season: Int? = nil)
-    case competitionScorers(id: Int, season: Int? = nil, limit: Int? = nil)
-    case matchesToday(filters: MatchFilters = .init())
-    case match(id: Int)
-    case team(id: Int)
-    case teamMatches(id: Int, filters: MatchFilters = .init())
-    case person(id: Int)
-    case personMatches(id: Int, filters: MatchFilters = .init())
+    // Matches
+    case fixturesByDate(date: String)
+    case liveFixtures
+    case fixturesByLeague(leagueId: Int, season: Int)
+    case fixturesByTeam(teamId: Int, season: Int)
+
+    // Leagues
+    case leagues
+    case leagueDetail(leagueId: Int)
+    case standings(leagueId: Int, season: Int)
+    case teamsByLeague(leagueId: Int, season: Int)
+
+    // Teams
+    case teamInfo(teamId: Int)
+    case teamSquad(teamId: Int)
+    case teamStatistics(teamId: Int, leagueId: Int, season: Int)
+    case leaguesByTeam(teamId: Int)
 
     var baseURL: URL {
         return URL(string: AppConstants.baseURL)!
@@ -32,64 +36,56 @@ enum APIRouter: URLRequestConvertible {
 
     var path: String {
         switch self {
-        case .areas:
-            return "/areas"
-        case .competitions:
-            return "/competitions"
-        case .competition(let id):
-            return "/competitions/\(id)"
-        case .competitionMatches(let id, _):
-            return "/competitions/\(id)/matches"
-        case .competitionTeams(let id, _):
-            return "/competitions/\(id)/teams"
-        case .competitionStandings(let id, _):
-            return "/competitions/\(id)/standings"
-        case .competitionScorers(let id, _, _):
-            return "/competitions/\(id)/scorers"
-        case .matchesToday:
-            return "/matches"
-        case .match(let id):
-            return "/matches/\(id)"
-        case .team(let id):
-            return "/teams/\(id)"
-        case .teamMatches(let id, _):
-            return "/teams/\(id)/matches"
-        case .person(let id):
-            return "/persons/\(id)"
-        case .personMatches(let id, _):
-            return "/persons/\(id)/matches"
+        case .fixturesByDate, .liveFixtures, .fixturesByLeague, .fixturesByTeam:
+            return "/fixtures"
+        case .leagues, .leagueDetail, .leaguesByTeam:
+            return "/leagues"
+        case .standings:
+            return "/standings"
+        case .teamsByLeague, .teamInfo:
+            return "/teams"
+        case .teamSquad:
+            return "/players/squads"
+        case .teamStatistics:
+            return "/teams/statistics"
         }
     }
 
     var parameters: Parameters? {
         switch self {
-        case .competitionMatches(_, let filters),
-             .teamMatches(_, let filters),
-             .personMatches(_, let filters),
-             .matchesToday(let filters):
-            return filters.asParameters()
-
-        case .competitionTeams(_, let season),
-             .competitionStandings(_, let season):
-            guard let season else { return nil }
-            return ["season": season]
-
-        case .competitionScorers(_, let season, let limit):
-            var params: Parameters = [:]
-            if let season { params["season"] = season }
-            if let limit { params["limit"] = limit }
-            return params.isEmpty ? nil : params
-
-        default:
+        case .fixturesByDate(let date):
+            return ["date": date]
+        case .liveFixtures:
+            return ["live": "all"]
+        case .fixturesByLeague(let leagueId, let season):
+            return ["league": leagueId, "season": season]
+        case .fixturesByTeam(let teamId, let season):
+            return ["team": teamId, "season": season]
+        case .leagueDetail(let leagueId):
+            return ["id": leagueId]
+        case .standings(let leagueId, let season):
+            return ["league": leagueId, "season": season]
+        case .teamsByLeague(let leagueId, let season):
+            return ["league": leagueId, "season": season]
+        case .teamInfo(let teamId):
+            return ["id": teamId]
+        case .teamSquad(let teamId):
+            return ["team": teamId]
+        case .teamStatistics(let teamId, let leagueId, let season):
+            return ["team": teamId, "league": leagueId, "season": season]
+        case .leaguesByTeam(let teamId):
+            return ["team": teamId]
+        case .leagues:
             return nil
         }
     }
 
     var headers: HTTPHeaders {
         var headers: HTTPHeaders = ["Accept": "application/json"]
-        let token = AppConstants.footballDataToken
-        if !token.isEmpty {
-            headers.add(name: "X-Auth-Token", value: token)
+        let apiKey = AppConstants.apiFootballKey
+        if !apiKey.isEmpty {
+            headers.add(name: "x-apisports-key", value: apiKey)
+            headers.add(name: "x-apisports-host", value: "v3.football.api-sports.io")
         }
         return headers
     }
@@ -101,43 +97,4 @@ enum APIRouter: URLRequestConvertible {
         request.headers = headers
         return try URLEncoding.queryString.encode(request, with: parameters)
     }
-}
-
-struct MatchFilters {
-    var dateFrom: String?
-    var dateTo: String?
-    var status: MatchStatus?
-    var matchday: Int?
-    var stage: String?
-    var group: String?
-    var season: Int?
-    var competitions: [Int]?
-    var limit: Int?
-
-    func asParameters() -> Parameters? {
-        var params: Parameters = [:]
-        if let dateFrom { params["dateFrom"] = dateFrom }
-        if let dateTo { params["dateTo"] = dateTo }
-        if let status { params["status"] = status.rawValue }
-        if let matchday { params["matchday"] = matchday }
-        if let stage { params["stage"] = stage }
-        if let group { params["group"] = group }
-        if let season { params["season"] = season }
-        if let competitions, !competitions.isEmpty {
-            params["competitions"] = competitions.map(String.init).joined(separator: ",")
-        }
-        if let limit { params["limit"] = limit }
-        return params.isEmpty ? nil : params
-    }
-}
-
-enum MatchStatus: String {
-    case scheduled = "SCHEDULED"
-    case live = "LIVE"
-    case inPlay = "IN_PLAY"
-    case paused = "PAUSED"
-    case finished = "FINISHED"
-    case postponed = "POSTPONED"
-    case suspended = "SUSPENDED"
-    case cancelled = "CANCELLED"
 }

@@ -1,6 +1,49 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ vs %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ vs %2$@"
+          }
+        }
+      }
+    },
+    "%@ vs. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ vs. %2$@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld'" : {
+
+    },
+    "Assist: %@" : {
+
+    },
+    "away_short" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Away"
+          }
+        }
+      }
+    },
+    "Choose date" : {
+
+    },
     "competitions" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -11,6 +54,12 @@
           }
         }
       }
+    },
+    "Detail tabs" : {
+
+    },
+    "Done" : {
+
     },
     "Error" : {
 
@@ -26,17 +75,54 @@
         }
       }
     },
+    "Formation: %@" : {
+
+    },
     "Hello, World!" : {
 
+    },
+    "home_short" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
+          }
+        }
+      }
     },
     "Key" : {
       "extractionState" : "manual"
     },
+    "Live Match" : {
+
+    },
     "Live Score" : {
+
+    },
+    "Loading highlights..." : {
+
+    },
+    "Loading lineup..." : {
 
     },
     "Loading..." : {
 
+    },
+    "Match Details" : {
+
+    },
+    "matches" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matches"
+          }
+        }
+      }
     },
     "myTeam" : {
       "extractionState" : "manual",
@@ -49,22 +135,54 @@
         }
       }
     },
+    "No highlight events available." : {
+
+    },
+    "No lineup available." : {
+
+    },
     "No matches today." : {
 
     },
     "Retry" : {
 
     },
-    "today" : {
+    "Select date" : {
+
+    },
+    "Starting XI" : {
+
+    },
+    "Substitutes" : {
+
+    },
+    "team_a_home" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Today"
+            "value" : "Team A (Home)"
           }
         }
       }
+    },
+    "team_b_away" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Team B (Away)"
+          }
+        }
+      }
+    },
+    "Today Match" : {
+
+    },
+    "Watch highlights on YouTube" : {
+
     }
   },
   "version" : "1.2"

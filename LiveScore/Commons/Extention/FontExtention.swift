@@ -34,6 +34,7 @@ enum FontFamily {
 extension Font {
     /// Regular
     static let regular8 = Font.custom(FontFamily.regular.font, size: 8)
+    static let regular12 = Font.custom(FontFamily.regular.font, size: 12)
     static let regular14 = Font.custom(FontFamily.regular.font, size: 14)
     static let regular16 = Font.custom(FontFamily.regular.font, size: 16)
 

@@ -20,7 +20,7 @@ extension Container {
 
 /// Navigation
 extension Container {
-    var todayNavi: Factory<Navigation> {
+    var matchesNavi: Factory<Navigation> {
         Factory(self) { @MainActor in
             Navigation()
         }.singleton

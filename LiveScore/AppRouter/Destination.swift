@@ -13,7 +13,8 @@ enum Destination: Equatable {
         String(describing: lhs) == String(describing: rhs)
     }
     
-    case today
+    case matches
+    case matcheDetail(match: AFFixtureResponse)
     case competitions
     case favorites
     case myTeam
@@ -22,7 +23,8 @@ enum Destination: Equatable {
 extension Destination {
     var identifier: String {
         switch self {
-        case .today: return "today"
+        case .matches: return "matches"
+        case .matcheDetail: return "matcheDetail"
         case .competitions: return "competitions"
         case .favorites: return "favorites"
         case .myTeam: return "myTeam"
@@ -34,8 +36,10 @@ extension Navigation {
     @ViewBuilder
     internal func screen(for destinationWrapper: DestinationWrapper) -> some View {
         switch destinationWrapper.destination {
-        case .today:
-            TodayView()
+        case .matches:
+            MatchesView()
+        case .matcheDetail(let match):
+            MatcheDetailView(match: match)
         case .competitions:
             CompetitionsView()
         case .favorites:

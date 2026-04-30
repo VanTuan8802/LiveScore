@@ -9,6 +9,10 @@ import SwiftUI
 
 @main
 struct LiveScoreApp: App {
+    init() {
+        RemoteConfigManager.shared.configure()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContainerView()

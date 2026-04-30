@@ -13,7 +13,7 @@ import Combine
 class AppManager: ObservableObject {
     /// Tabbar
     @Published var isShowTabbar: Bool = true
-    @Published var activeTab: TabBarItem = .today
+    @Published var activeTab: TabBarItem = .matches
 
     /// Navi
     @Published var navi: Navigation = Navigation()
