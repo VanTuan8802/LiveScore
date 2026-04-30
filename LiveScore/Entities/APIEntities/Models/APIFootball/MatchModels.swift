@@ -18,11 +18,17 @@ struct AFFixture: Decodable {
     let id: Int
     let date: Date
     let status: AFFixtureStatus
+    let venue: AFVenue?
 }
 
 struct AFFixtureStatus: Decodable {
     let short: String
     let elapsed: Int?
+}
+
+struct AFVenue: Decodable {
+    let name: String?
+    let city: String?
 }
 
 struct AFLeagueSummary: Decodable {

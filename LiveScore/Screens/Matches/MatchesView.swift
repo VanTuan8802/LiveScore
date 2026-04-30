@@ -9,6 +9,10 @@ import SwiftUI
 
 struct MatchesView: View {
     @StateObject private var viewModel = MatchesViewModel()
+    @State private var selectedLeagueId: Int?
+    @State private var selectedDate: Date = Date()
+    @State private var showDatePicker: Bool = false
+    private let preferredLeagueIDs: [Int] = [1, 4, 2, 39, 140, 135, 78, 61]
 
     var body: some View {
         NavigationStack {
@@ -35,43 +39,97 @@ struct MatchesView: View {
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
-                    ScrollView {
-                        LazyVStack(spacing: 0, pinnedViews: []) {
-                            ForEach(groupedMatches) { section in
-                                VStack(spacing: 0) {
-                                    LeagueHeaderView(section: section)
-                                    ForEach(Array(section.matches.enumerated()), id: \.element.id) { index, match in
-                                        MatchRow(match: match)
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 10)
-                                        if index < section.matches.count - 1 {
-                                            Divider()
-                                                .padding(.leading, 44)
-                                                .padding(.trailing, 16)
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 18) {
+                            WeekSelector(
+                                selectedDate: $selectedDate,
+                                onTapCalendar: { showDatePicker = true }
+                            )
+                            .padding(.top, 6)
+
+                            if let liveMatch {
+                                Text("Live Match")
+                                    .font(.semibold20)
+                                LiveMatchCard(match: liveMatch)
+                            }
+
+                            Text("Today Match")
+                                .font(.semibold20)
+
+                            LeagueChipSelector(
+                                leagues: groupedMatches,
+                                selectedLeagueId: $selectedLeagueId
+                            )
+
+                            VStack(spacing: 12) {
+                                ForEach(filteredSections) { section in
+                                    VStack(spacing: 0) {
+                                        LeagueHeaderView(section: section)
+                                        ForEach(Array(section.matches.enumerated()), id: \.element.id) { index, match in
+                                            CompactMatchRow(match: match)
+                                                .padding(.horizontal, 12)
+                                                .padding(.vertical, 10)
+                                            if index < section.matches.count - 1 {
+                                                Divider()
+                                                    .padding(.horizontal, 12)
+                                            }
                                         }
                                     }
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .stroke(Color(.systemGray5), lineWidth: 0.8)
+                                    )
                                 }
-                                .background(Color(.systemBackground))
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .stroke(Color(.systemGray5), lineWidth: 0.8)
-                                )
-                                .padding(.horizontal, 12)
-                                .padding(.top, 10)
                             }
                         }
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 20)
                     }
-                    .background(Color(.systemGroupedBackground))
+                    .background(
+                        LinearGradient(
+                            colors: [Color(.systemGray6), Color.white],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .ignoresSafeArea()
+                    )
                 }
             }
-            .navigationTitle(Text(String(localized: .matches)))
-            .task { await viewModel.loadMatches() }
-            .refreshable { await viewModel.loadMatches() }
+            .navigationBarHidden(true)
+            .task { await viewModel.loadMatches(for: selectedDate) }
+            .refreshable { await viewModel.loadMatches(for: selectedDate) }
+            .onChange(of: selectedDate) { _, newValue in
+                Task { await viewModel.loadMatches(for: newValue) }
+            }
+            .sheet(isPresented: $showDatePicker) {
+                NavigationStack {
+                    VStack {
+                        DatePicker(
+                            "Select date",
+                            selection: $selectedDate,
+                            displayedComponents: [.date]
+                        )
+                        .datePickerStyle(.graphical)
+                        .padding()
+                        Spacer()
+                    }
+                    .navigationTitle("Choose date")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("Done") { showDatePicker = false }
+                        }
+                    }
+                }
+                .presentationDetents([.medium])
+            }
         }
     }
 
     private var groupedMatches: [LeagueSection] {
+        let priorityMap = Dictionary(uniqueKeysWithValues: preferredLeagueIDs.enumerated().map { ($1, $0) })
         var sections: [LeagueSection] = []
         for match in viewModel.matches {
             if let index = sections.firstIndex(where: { $0.id == match.league.id }) {
@@ -88,183 +146,26 @@ struct MatchesView: View {
                 )
             }
         }
-        return sections
-    }
-}
-
-private struct MatchRow: View {
-    let match: AFFixtureResponse
-
-    var body: some View {
-        HStack(spacing: 10) {
-            VStack(alignment: .leading, spacing: 10) {
-                TeamVerticalRowView(
-                    displayName: "\(match.teams.home.name) (\(String(localized: "home_short")))",
-                    logoURL: match.teams.home.logo
-                )
-                TeamVerticalRowView(
-                    displayName: "\(match.teams.away.name) (\(String(localized: "away_short")))",
-                    logoURL: match.teams.away.logo
-                )
+        return sections.sorted { lhs, rhs in
+            let lhsPriority = priorityMap[lhs.id] ?? Int.max
+            let rhsPriority = priorityMap[rhs.id] ?? Int.max
+            if lhsPriority != rhsPriority {
+                return lhsPriority < rhsPriority
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            Spacer(minLength: 8)
-
-            VStack(alignment: .trailing, spacing: 10) {
-                Text(kickoffText)
-                    .font(.regular14)
-                    .foregroundColor(.secondary)
-                    .frame(width: 44, alignment: .trailing)
-
-                Text(scoreText)
-                    .font(.semibold14)
-                    .foregroundColor(.primary)
-                    .frame(minWidth: 34)
-                    .padding(.horizontal, 9)
-                    .padding(.vertical, 5)
-                    .background(
-                        Capsule()
-                            .fill(Color(.systemGray6))
-                    )
-            }
-        }
-        .padding(.vertical, 2)
-        .contentShape(Rectangle())
-    }
-
-    private var scoreText: String {
-        let home = match.goals.home
-        let away = match.goals.away
-        if let home, let away {
-            return "\(home) - \(away)"
-        }
-        return match.fixture.status.short
-    }
-
-    private var kickoffText: String {
-        Self.timeFormatter.string(from: match.fixture.date)
-    }
-
-    private static let timeFormatter: DateFormatter = {
-        let df = DateFormatter()
-        df.dateFormat = "HH:mm"
-        return df
-    }()
-}
-
-private struct LeagueHeaderView: View {
-    let section: LeagueSection
-
-    var body: some View {
-        HStack(spacing: 10) {
-            RemoteImage(urlString: section.logo, size: 18)
-                .frame(width: 26, height: 26)
-                .background(Color.white.opacity(0.85))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-
-            HStack(spacing: 4) {
-                Text(section.name)
-                    .font(.semibold16)
-                    .foregroundColor(.primary)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-
-                Text("(\(roundDisplay))")
-                    .font(.regular12)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-            }
-
-            Spacer(minLength: 8)
-
-            Text("->")
-                .font(.semibold20)
-                .foregroundColor(.white)
-                .frame(minWidth: 28, alignment: .trailing)
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 11)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color("primary").opacity(0.14))
-        )
-    }
-
-    private var roundDisplay: String {
-        guard let round = section.round, !round.isEmpty else {
-            return "Round -"
-        }
-
-        let digits = round.filter(\.isNumber)
-        if !digits.isEmpty {
-            return "Round \(digits)"
-        }
-
-        return round
-    }
-}
-
-private struct TeamVerticalRowView: View {
-    let displayName: String
-    let logoURL: String?
-
-    var body: some View {
-        HStack(spacing: 8) {
-            RemoteImage(urlString: logoURL, size: 20)
-            Text(displayName)
-                .font(.semibold14)
-                .foregroundColor(.primary)
-                .lineLimit(1)
-                .truncationMode(.tail)
-        }
-    }
-}
-
-private struct RemoteImage: View {
-    let urlString: String?
-    let size: CGFloat
-
-    var body: some View {
-        if let urlString, let url = URL(string: urlString) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
-                case .failure:
-                    placeholder
-                case .empty:
-                    placeholder
-                @unknown default:
-                    placeholder
-                }
-            }
-            .frame(width: size, height: size)
-        } else {
-            placeholder
-                .frame(width: size, height: size)
+            return lhs.name < rhs.name
         }
     }
 
-    private var placeholder: some View {
-        Circle()
-            .fill(Color(.systemGray5))
-            .overlay(
-                Circle()
-                    .stroke(Color(.systemGray4), lineWidth: 0.5)
-            )
+    private var filteredSections: [LeagueSection] {
+        guard let selectedLeagueId else { return groupedMatches }
+        return groupedMatches.filter { $0.id == selectedLeagueId }
     }
-}
 
-private struct LeagueSection: Identifiable {
-    let id: Int
-    let name: String
-    let logo: String?
-    let round: String?
-    var matches: [AFFixtureResponse]
+    private var liveMatch: AFFixtureResponse? {
+        viewModel.matches.first {
+            ["LIVE", "1H", "2H", "HT"].contains($0.fixture.status.short)
+        } ?? viewModel.matches.first
+    }
 }
 
 #Preview {

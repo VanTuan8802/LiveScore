@@ -1,11 +1,25 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "->" : {
-
+    "%@ vs %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ vs %2$@"
+          }
+        }
+      }
     },
-    "(%@)" : {
-
+    "%@ vs. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ vs. %2$@"
+          }
+        }
+      }
     },
     "away_short" : {
       "extractionState" : "manual",
@@ -18,6 +32,9 @@
         }
       }
     },
+    "Choose date" : {
+
+    },
     "competitions" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -28,6 +45,9 @@
           }
         }
       }
+    },
+    "Done" : {
+
     },
     "Error" : {
 
@@ -59,6 +79,9 @@
     },
     "Key" : {
       "extractionState" : "manual"
+    },
+    "Live Match" : {
+
     },
     "Live Score" : {
 
@@ -94,6 +117,9 @@
     "Retry" : {
 
     },
+    "Select date" : {
+
+    },
     "team_a_home" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -115,6 +141,9 @@
           }
         }
       }
+    },
+    "Today Match" : {
+
     }
   },
   "version" : "1.2"

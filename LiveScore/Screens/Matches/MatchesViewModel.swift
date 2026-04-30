@@ -26,7 +26,7 @@ final class MatchesViewModel: ObservableObject {
         self.matchesService = matchesService
     }
 
-    func loadMatches() async {
+    func loadMatches(for date: Date = Date()) async {
         isLoading = true
         errorMessage = nil
         defer { isLoading = false }
@@ -34,21 +34,9 @@ final class MatchesViewModel: ObservableObject {
         do {
             _ = await RemoteConfigManager.shared.fetchAndActivate()
 
-            let today = Self.dateFormatter.string(from: Date())
-        
-
-            let response = try await matchesService.getMatchesByDate(date: today)
-        
-
-            for match in response {
-                let home = match.teams.home.name
-                let away = match.teams.away.name
-                let homeScore = match.goals.home.map(String.init) ?? "-"
-                let awayScore = match.goals.away.map(String.init) ?? "-"
-                
-            }
-
-            matches = prioritizeLeagues(in: response)
+            let response = try await fetchMatchesAroundSelectedDate(date)
+            let filtered = filterMatchesByDeviceDate(response, selectedDate: date)
+            matches = prioritizeLeagues(in: filtered)
         } catch {
             errorMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
         }
@@ -58,10 +46,34 @@ final class MatchesViewModel: ObservableObject {
         let df = DateFormatter()
         df.calendar = Calendar(identifier: .gregorian)
         df.locale = Locale(identifier: "en_US_POSIX")
-        df.timeZone = TimeZone(identifier: "UTC")
+        df.timeZone = .autoupdatingCurrent
         df.dateFormat = "yyyy-MM-dd"
         return df
     }()
+
+    private func fetchMatchesAroundSelectedDate(_ date: Date) async throws -> [AFFixtureResponse] {
+        let calendar = Calendar.autoupdatingCurrent
+        let dates = [-1, 0, 1].compactMap { offset in
+            calendar.date(byAdding: .day, value: offset, to: date)
+        }
+
+        var mergedByID: [Int: AFFixtureResponse] = [:]
+        for day in dates {
+            let dayString = Self.dateFormatter.string(from: day)
+            let fixtures = try await matchesService.getMatchesByDate(date: dayString)
+            for fixture in fixtures {
+                mergedByID[fixture.id] = fixture
+            }
+        }
+        return Array(mergedByID.values)
+    }
+
+    private func filterMatchesByDeviceDate(_ fixtures: [AFFixtureResponse], selectedDate: Date) -> [AFFixtureResponse] {
+        let calendar = Calendar.autoupdatingCurrent
+        return fixtures.filter { fixture in
+            calendar.isDate(fixture.fixture.date, inSameDayAs: selectedDate)
+        }
+    }
 
     private func prioritizeLeagues(in fixtures: [AFFixtureResponse]) -> [AFFixtureResponse] {
         fixtures.sorted { lhs, rhs in
