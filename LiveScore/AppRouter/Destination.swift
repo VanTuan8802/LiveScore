@@ -14,6 +14,7 @@ enum Destination: Equatable {
     }
     
     case matches
+    case matcheDetail(match: AFFixtureResponse)
     case competitions
     case favorites
     case myTeam
@@ -23,6 +24,7 @@ extension Destination {
     var identifier: String {
         switch self {
         case .matches: return "matches"
+        case .matcheDetail: return "matcheDetail"
         case .competitions: return "competitions"
         case .favorites: return "favorites"
         case .myTeam: return "myTeam"
@@ -36,6 +38,8 @@ extension Navigation {
         switch destinationWrapper.destination {
         case .matches:
             MatchesView()
+        case .matcheDetail(let match):
+            MatcheDetailView(match: match)
         case .competitions:
             CompetitionsView()
         case .favorites:

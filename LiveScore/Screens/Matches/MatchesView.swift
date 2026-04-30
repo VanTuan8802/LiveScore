@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Factory
 
 struct MatchesView: View {
     @StateObject private var viewModel = MatchesViewModel()
+    @InjectedObject(\.app) private var app: AppManager
     @State private var selectedLeagueId: Int?
     @State private var selectedDate: Date = Date()
     @State private var showDatePicker: Bool = false
@@ -66,9 +68,14 @@ struct MatchesView: View {
                                     VStack(spacing: 0) {
                                         LeagueHeaderView(section: section)
                                         ForEach(Array(section.matches.enumerated()), id: \.element.id) { index, match in
-                                            CompactMatchRow(match: match)
-                                                .padding(.horizontal, 12)
-                                                .padding(.vertical, 10)
+                                            Button {
+                                                app.navi.push(.matcheDetail(match: match))
+                                            } label: {
+                                                CompactMatchRow(match: match)
+                                                    .padding(.horizontal, 12)
+                                                    .padding(.vertical, 10)
+                                            }
+                                            .buttonStyle(.plain)
                                             if index < section.matches.count - 1 {
                                                 Divider()
                                                     .padding(.horizontal, 12)

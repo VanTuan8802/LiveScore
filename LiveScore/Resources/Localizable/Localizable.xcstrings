@@ -21,6 +21,15 @@
         }
       }
     },
+    "%lld" : {
+
+    },
+    "%lld'" : {
+
+    },
+    "Assist: %@" : {
+
+    },
     "away_short" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -46,6 +55,9 @@
         }
       }
     },
+    "Detail tabs" : {
+
+    },
     "Done" : {
 
     },
@@ -62,6 +74,9 @@
           }
         }
       }
+    },
+    "Formation: %@" : {
+
     },
     "Hello, World!" : {
 
@@ -86,7 +101,16 @@
     "Live Score" : {
 
     },
+    "Loading highlights..." : {
+
+    },
+    "Loading lineup..." : {
+
+    },
     "Loading..." : {
+
+    },
+    "Match Details" : {
 
     },
     "matches" : {
@@ -111,6 +135,12 @@
         }
       }
     },
+    "No highlight events available." : {
+
+    },
+    "No lineup available." : {
+
+    },
     "No matches today." : {
 
     },
@@ -118,6 +148,12 @@
 
     },
     "Select date" : {
+
+    },
+    "Starting XI" : {
+
+    },
+    "Substitutes" : {
 
     },
     "team_a_home" : {
@@ -143,6 +179,9 @@
       }
     },
     "Today Match" : {
+
+    },
+    "Watch highlights on YouTube" : {
 
     }
   },
