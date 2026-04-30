@@ -17,7 +17,7 @@ enum Destination: Equatable {
     case matcheDetail(match: AFFixtureResponse)
     case competitions
     case favorites
-    case myTeam
+    case setting
 }
 
 extension Destination {
@@ -27,7 +27,7 @@ extension Destination {
         case .matcheDetail: return "matcheDetail"
         case .competitions: return "competitions"
         case .favorites: return "favorites"
-        case .myTeam: return "myTeam"
+        case .setting: return "setting"
         }
     }
 }
@@ -44,7 +44,7 @@ extension Navigation {
             CompetitionsView()
         case .favorites:
             FavoritesView()
-        case .myTeam:
+        case .setting:
             MyTeamView()
         }
     }
