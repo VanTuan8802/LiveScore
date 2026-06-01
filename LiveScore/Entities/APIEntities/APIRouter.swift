@@ -13,7 +13,8 @@ enum APIRouter: URLRequestConvertible {
     // Matches
     case fixturesByDate(date: String)
     case liveFixtures
-    case fixturesByLeague(leagueId: Int, season: Int)
+    case fixturesByLeague(leagueId: Int, season: Int, round: String? = nil, last: Int? = nil)
+    case fixtureRounds(leagueId: Int, season: Int, current: Bool? = nil)
     case fixturesByTeam(teamId: Int, season: Int)
 
     // Leagues
@@ -38,6 +39,8 @@ enum APIRouter: URLRequestConvertible {
         switch self {
         case .fixturesByDate, .liveFixtures, .fixturesByLeague, .fixturesByTeam:
             return "/fixtures"
+        case .fixtureRounds:
+            return "/fixtures/rounds"
         case .leagues, .leagueDetail, .leaguesByTeam:
             return "/leagues"
         case .standings:
@@ -57,8 +60,15 @@ enum APIRouter: URLRequestConvertible {
             return ["date": date]
         case .liveFixtures:
             return ["live": "all"]
-        case .fixturesByLeague(let leagueId, let season):
-            return ["league": leagueId, "season": season]
+        case .fixturesByLeague(let leagueId, let season, let round, let last):
+            var params: Parameters = ["league": leagueId, "season": season]
+            if let round { params["round"] = round }
+            if let last { params["last"] = last }
+            return params
+        case .fixtureRounds(let leagueId, let season, let current):
+            var params: Parameters = ["league": leagueId, "season": season]
+            if current == true { params["current"] = "true" }
+            return params
         case .fixturesByTeam(let teamId, let season):
             return ["team": teamId, "season": season]
         case .leagueDetail(let leagueId):

@@ -19,7 +19,7 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
     }
 
     case matches
-    case competitions
+    case leagues
     case favorites
     case setting
 
@@ -27,8 +27,8 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
         switch self {
         case .matches:
             return String(localized: .matches)
-        case .competitions:
-            return String(localized: .competitions)
+        case .leagues:
+            return String(localized: .leagues)
         case .favorites:
             return String(localized: .favorites)
         case .setting:
@@ -40,7 +40,7 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
         switch self {
         case .matches:
             return Image("matches_tab_normal")
-        case .competitions:
+        case .leagues:
             return Image("competitions_tab_normal")
         case .favorites:
             return Image("favorites_tab_normal")
@@ -53,7 +53,7 @@ enum TabBarItem: Int, Identifiable, CaseIterable, Comparable {
         switch self {
         case .matches:
             return Image("matches_tab_selected")
-        case .competitions:
+        case .leagues:
             return Image("competitions_tab_selected")
         case .favorites:
             return Image("favorites_tab_selected")

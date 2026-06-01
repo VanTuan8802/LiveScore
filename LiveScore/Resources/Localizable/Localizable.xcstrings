@@ -27,9 +27,6 @@
     "%lld'" : {
 
     },
-    "Assist: %@" : {
-
-    },
     "assist_format" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -51,9 +48,6 @@
           }
         }
       }
-    },
-    "Choose date" : {
-
     },
     "choose_date" : {
       "extractionState" : "manual",
@@ -77,7 +71,7 @@
         }
       }
     },
-    "Detail tabs" : {
+    "Current Round" : {
 
     },
     "detail_tabs" : {
@@ -91,9 +85,6 @@
         }
       }
     },
-    "Done" : {
-
-    },
     "done_action" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -104,9 +95,6 @@
           }
         }
       }
-    },
-    "Error" : {
-
     },
     "error_title" : {
       "extractionState" : "manual",
@@ -129,9 +117,6 @@
           }
         }
       }
-    },
-    "Formation: %@" : {
-
     },
     "formation_format" : {
       "extractionState" : "manual",
@@ -161,8 +146,16 @@
     "Key" : {
       "extractionState" : "manual"
     },
-    "Live Match" : {
-
+    "leagues" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leagues"
+          }
+        }
+      }
     },
     "live_match_title" : {
       "extractionState" : "manual",
@@ -175,9 +168,6 @@
         }
       }
     },
-    "Live Score" : {
-
-    },
     "live_score_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -188,37 +178,6 @@
           }
         }
       }
-    },
-    "Loading highlights..." : {
-
-    },
-    "loading_highlights" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading highlights..."
-          }
-        }
-      }
-    },
-    "Loading lineup..." : {
-
-    },
-    "loading_lineup" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading lineup..."
-          }
-        }
-      }
-    },
-    "Loading..." : {
-
     },
     "loading" : {
       "extractionState" : "manual",
@@ -231,8 +190,27 @@
         }
       }
     },
-    "Match Details" : {
-
+    "loading_highlights" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading highlights..."
+          }
+        }
+      }
+    },
+    "loading_lineup" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading lineup..."
+          }
+        }
+      }
     },
     "match_details_title" : {
       "extractionState" : "manual",
@@ -267,17 +245,6 @@
         }
       }
     },
-    "setting" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Setting"
-          }
-        }
-      }
-    },
     "myTeam" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -289,7 +256,10 @@
         }
       }
     },
-    "No highlight events available." : {
+    "Next" : {
+
+    },
+    "No fixtures in this round." : {
 
     },
     "no_highlight_events_available" : {
@@ -303,8 +273,16 @@
         }
       }
     },
-    "No lineup available." : {
-
+    "no_leagues_available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No leagues available."
+          }
+        }
+      }
     },
     "no_lineup_available" : {
       "extractionState" : "manual",
@@ -316,9 +294,6 @@
           }
         }
       }
-    },
-    "No matches today." : {
-
     },
     "no_matches_today" : {
       "extractionState" : "manual",
@@ -342,7 +317,7 @@
         }
       }
     },
-    "Retry" : {
+    "Previous" : {
 
     },
     "retry_action" : {
@@ -356,9 +331,6 @@
         }
       }
     },
-    "Select date" : {
-
-    },
     "select_date" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -370,8 +342,16 @@
         }
       }
     },
-    "Starting XI" : {
-
+    "setting" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setting"
+          }
+        }
+      }
     },
     "starting_xi" : {
       "extractionState" : "manual",
@@ -383,9 +363,6 @@
           }
         }
       }
-    },
-    "Substitutes" : {
-
     },
     "substitutes" : {
       "extractionState" : "manual",
@@ -420,9 +397,6 @@
         }
       }
     },
-    "Today Match" : {
-
-    },
     "today_match_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -433,9 +407,6 @@
           }
         }
       }
-    },
-    "Watch highlights on YouTube" : {
-
     },
     "watch_highlights_on_youtube" : {
       "extractionState" : "manual",

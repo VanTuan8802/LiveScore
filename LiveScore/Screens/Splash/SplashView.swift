@@ -21,7 +21,7 @@ struct SplashView: View {
                 .scaledToFit()
                 .frame(width: 200, height: 200)
             HStack {
-                Text(String(localized: .live_score_title))
+                Text(String(localized: .liveScoreTitle))
                     .font(.extraBold22)
                     .foregroundColor(.primary)
             }

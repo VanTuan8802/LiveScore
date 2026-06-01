@@ -16,13 +16,13 @@ struct LineUpTab: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             if isLoading {
-                ProgressView(String(localized: .loading_lineup))
+                ProgressView(String(localized: .loadingLineup))
             } else if let errorMessage {
                 Text(errorMessage)
                     .font(.regular14)
                     .foregroundColor(.secondary)
             } else if lineups.isEmpty {
-                Text(String(localized: .no_lineup_available))
+                Text(String(localized: .noLineupAvailable))
                     .font(.regular14)
                     .foregroundColor(.secondary)
             } else {
@@ -37,7 +37,7 @@ struct LineUpTab: View {
                                     Text(lineup.team.name)
                                         .font(.semibold20)
                                         .foregroundColor(.primary)
-                                    Text(String(format: String(localized: .formation_format), lineup.formation ?? "-"))
+                                    Text(String(localized: .formationFormat(lineup.formation ?? "-")))
                                         .font(.regular14)
                                         .foregroundColor(.secondary)
                                 }
@@ -51,7 +51,7 @@ struct LineUpTab: View {
 
                         if expandedLineupIDs.contains(lineup.id) {
                             Divider()
-                            Text(String(localized: .starting_xi))
+                            Text(String(localized: .startingXi))
                                 .font(.semibold16)
                                 .foregroundColor(Color("primary"))
 
