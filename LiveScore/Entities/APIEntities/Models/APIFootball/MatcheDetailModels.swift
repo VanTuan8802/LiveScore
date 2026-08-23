@@ -43,6 +43,69 @@ struct AFFixtureEvent: Decodable, Identifiable {
     }
 }
 
+struct AFFixtureStatisticsResponse: Decodable, Identifiable {
+    let team: AFTeamSummary
+    let statistics: [AFMatchStatistic]
+
+    var id: Int { team.id }
+}
+
+struct AFMatchStatistic: Decodable, Identifiable {
+    let type: String?
+    let value: AFStatisticValue?
+
+    var id: String { type ?? UUID().uuidString }
+}
+
+enum AFStatisticValue: Decodable {
+    case int(Int)
+    case string(String)
+    case null
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if container.decodeNil() {
+            self = .null
+            return
+        }
+        if let intValue = try? container.decode(Int.self) {
+            self = .int(intValue)
+            return
+        }
+        if let stringValue = try? container.decode(String.self) {
+            self = .string(stringValue)
+            return
+        }
+        self = .null
+    }
+
+    var displayText: String {
+        switch self {
+        case .int(let value):
+            return "\(value)"
+        case .string(let value):
+            return value
+        case .null:
+            return "-"
+        }
+    }
+
+    var numericValue: Double? {
+        switch self {
+        case .int(let value):
+            return Double(value)
+        case .string(let value):
+            let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+            if trimmed.hasSuffix("%") {
+                return Double(trimmed.dropLast())
+            }
+            return Double(trimmed)
+        case .null:
+            return nil
+        }
+    }
+}
+
 struct AFEventTime: Decodable {
     let elapsed: Int?
     let extra: Int?

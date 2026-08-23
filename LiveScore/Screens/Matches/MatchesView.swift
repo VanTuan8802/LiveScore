@@ -14,7 +14,6 @@ struct MatchesView: View {
     @State private var selectedLeagueId: Int?
     @State private var selectedDate: Date = Date()
     @State private var showDatePicker: Bool = false
-    private let preferredLeagueIDs: [Int] = [1, 4, 2, 39, 140, 135, 78, 61]
 
     var body: some View {
         NavigationStack {
@@ -24,19 +23,19 @@ struct MatchesView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if let errorMessage = viewModel.errorMessage {
                     VStack(spacing: 12) {
-                        Text(String(localized: .error_title))
+                        Text(String(localized: .errorTitle))
                             .font(.semibold20)
                         Text(errorMessage)
                             .font(.regular14)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.secondary)
                             .padding(.horizontal, 24)
-                        Button(String(localized: .retry_action)) { Task { await viewModel.loadMatches() } }
+                        Button(String(localized: .retryAction)) { Task { await viewModel.loadMatches() } }
                             .font(.semibold14)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if viewModel.matches.isEmpty {
-                    Text(String(localized: .no_matches_today))
+                    Text(String(localized: .noMatchesToday))
                         .font(.regular16)
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -50,12 +49,12 @@ struct MatchesView: View {
                             .padding(.top, 6)
 
                             if let liveMatch {
-                                Text(String(localized: .live_match_title))
+                                Text(String(localized: .liveMatchTitle))
                                     .font(.semibold20)
                                 LiveMatchCard(match: liveMatch)
                             }
 
-                            Text(String(localized: .today_match_title))
+                            Text(String(localized: .todayMatchTitle))
                                 .font(.semibold20)
 
                             LeagueChipSelector(
@@ -114,7 +113,7 @@ struct MatchesView: View {
                 NavigationStack {
                     VStack {
                         DatePicker(
-                            String(localized: .select_date),
+                            String(localized: .selectDate),
                             selection: $selectedDate,
                             displayedComponents: [.date]
                         )
@@ -122,11 +121,11 @@ struct MatchesView: View {
                         .padding()
                         Spacer()
                     }
-                    .navigationTitle(String(localized: .choose_date))
+                    .navigationTitle(String(localized: .chooseDate))
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
-                            Button(String(localized: .done_action)) { showDatePicker = false }
+                            Button(String(localized: .doneAction)) { showDatePicker = false }
                         }
                     }
                 }
@@ -136,7 +135,7 @@ struct MatchesView: View {
     }
 
     private var groupedMatches: [LeagueSection] {
-        let priorityMap = Dictionary(uniqueKeysWithValues: preferredLeagueIDs.enumerated().map { ($1, $0) })
+        let priorityMap = Dictionary(uniqueKeysWithValues: AppConstants.preferredLeagueIDs.enumerated().map { ($1, $0) })
         var sections: [LeagueSection] = []
         for match in viewModel.matches {
             if let index = sections.firstIndex(where: { $0.id == match.league.id }) {

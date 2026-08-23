@@ -9,6 +9,7 @@ import Foundation
 
 struct AppConstants {
     static let baseURL = "https://v3.football.api-sports.io"
+    static let preferredLeagueIDs: [Int] = [1, 4, 2, 39, 140, 135, 78, 61]
 
     /// Used when Remote Config is missing, invalid, or not yet loaded (`api_config` JSON).
     static let apiFootballKeyFallback = ""

@@ -9,6 +9,7 @@ import Alamofire
 protocol MatcheDetailServiceType {
     func getLineups(fixtureId: Int) async throws -> [AFFixtureLineup]
     func getEvents(fixtureId: Int) async throws -> [AFFixtureEvent]
+    func getStatistics(fixtureId: Int) async throws -> [AFFixtureStatisticsResponse]
 }
 
 final class MatcheDetailService: MatcheDetailServiceType {
@@ -33,6 +34,14 @@ final class MatcheDetailService: MatcheDetailServiceType {
     func getEvents(fixtureId: Int) async throws -> [AFFixtureEvent] {
         let response: APIFootballEnvelope<AFFixtureEvent> = try await request(
             path: "/fixtures/events",
+            queryItems: [URLQueryItem(name: "fixture", value: String(fixtureId))]
+        )
+        return response.response
+    }
+
+    func getStatistics(fixtureId: Int) async throws -> [AFFixtureStatisticsResponse] {
+        let response: APIFootballEnvelope<AFFixtureStatisticsResponse> = try await request(
+            path: "/fixtures/statistics",
             queryItems: [URLQueryItem(name: "fixture", value: String(fixtureId))]
         )
         return response.response

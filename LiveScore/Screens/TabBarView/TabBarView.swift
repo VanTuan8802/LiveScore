@@ -31,15 +31,15 @@ struct TabBarView: View {
                 }
                 .tag(TabBarItem.matches)
 
-            NavigationRoot(destination: .competitions, navigation: statisticNavi)
+            NavigationRoot(destination: .leagues, navigation: statisticNavi)
                 .tabItem {
                     Label {
-                        Text(String(localized: .competitions))
+                        Text(String(localized: .leagues))
                     } icon: {
                         tabIcon("competitions_tab_normal")
                     }
                 }
-                .tag(TabBarItem.competitions)
+                .tag(TabBarItem.leagues)
 
             NavigationRoot(destination: .favorites, navigation: budgetNavi)
                 .tabItem {
@@ -77,7 +77,7 @@ struct TabBarView: View {
     private func didSelectTab(_ tab: TabBarItem) {
         switch tab {
         case .matches: app.navi = matchesNavi
-        case .competitions: app.navi = statisticNavi
+        case .leagues: app.navi = statisticNavi
         case .favorites: app.navi = budgetNavi
         case .setting: app.navi = settingNavi
         }

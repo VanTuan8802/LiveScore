@@ -15,13 +15,13 @@ struct HighLightTab: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             if isLoading {
-                ProgressView(String(localized: .loading_highlights))
+                ProgressView(String(localized: .loadingHighlights))
             } else if let errorMessage {
                 Text(errorMessage)
                     .font(.regular14)
                     .foregroundColor(.secondary)
             } else if highlights.isEmpty {
-                Text(String(localized: .no_highlight_events_available))
+                Text(String(localized: .noHighlightEventsAvailable))
                     .font(.regular14)
                     .foregroundColor(.secondary)
             } else {
@@ -39,7 +39,7 @@ struct HighLightTab: View {
                                 .font(.regular14)
                                 .foregroundColor(.secondary)
                             if let assist = event.assist?.name, !assist.isEmpty {
-                                Text(String(format: String(localized: .assist_format), assist))
+                                Text(String(localized: .assistFormat(assist)))
                                     .font(.regular12)
                                     .foregroundColor(.secondary)
                             }

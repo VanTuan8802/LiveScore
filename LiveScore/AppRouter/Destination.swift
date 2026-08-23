@@ -15,7 +15,8 @@ enum Destination: Equatable {
     
     case matches
     case matcheDetail(match: AFFixtureResponse)
-    case competitions
+    case leagues
+    case leagueDetail(leagueId: Int, leagueName: String)
     case favorites
     case setting
 }
@@ -25,7 +26,8 @@ extension Destination {
         switch self {
         case .matches: return "matches"
         case .matcheDetail: return "matcheDetail"
-        case .competitions: return "competitions"
+        case .leagues: return "leagues"
+        case .leagueDetail(let leagueId, _): return "leagueDetail_\(leagueId)"
         case .favorites: return "favorites"
         case .setting: return "setting"
         }
@@ -40,8 +42,10 @@ extension Navigation {
             MatchesView()
         case .matcheDetail(let match):
             MatcheDetailView(match: match)
-        case .competitions:
-            CompetitionsView()
+        case .leagues:
+            LeaguesView()
+        case .leagueDetail(let leagueId, let leagueName):
+            LeagueDetailView(leagueId: leagueId, leagueName: leagueName)
         case .favorites:
             FavoritesView()
         case .setting:
