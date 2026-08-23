@@ -295,6 +295,28 @@
         }
       }
     },
+    "no_leagues_found" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No leagues found."
+          }
+        }
+      }
+    },
+    "search_leagues" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search leagues"
+          }
+        }
+      }
+    },
     "no_lineup_available" : {
       "extractionState" : "manual",
       "localizations" : {

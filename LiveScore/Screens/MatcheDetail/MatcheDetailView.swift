@@ -91,8 +91,9 @@ struct MatcheDetailView: View {
             .padding(16)
         }
         .background(Color(.systemGray6).ignoresSafeArea())
-        .navigationTitle(String(localized: .matchDetailsTitle))
-        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .top, spacing: 0) {
+            HeaderView(title: String(localized: .matchDetailsTitle), showBack: true)
+        }
         .task {
             await viewModel.loadData()
             expandedLineupIDs = Set(viewModel.lineups.map(\.id))

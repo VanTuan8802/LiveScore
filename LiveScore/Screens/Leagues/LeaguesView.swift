@@ -32,31 +32,37 @@ struct LeaguesView: View {
                     .font(.semibold14)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if viewModel.leagues.isEmpty {
-                Text(String(localized: .noLeaguesAvailable))
-                    .font(.regular16)
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                ScrollView(showsIndicators: false) {
-                    LazyVStack(spacing: 12) {
-                        ForEach(viewModel.leagues, id: \.league.id) { item in
-                            leagueRow(item)
-                                .onAppear {
-                                    viewModel.loadMoreIfNeeded(currentItem: item)
-                                }
-                        }
+                VStack(spacing: 0) {
+                    searchBar
 
-                        if viewModel.isLoadingMore {
-                            ProgressView()
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 8)
+                    if viewModel.leagues.isEmpty {
+                        Text(String(localized: viewModel.isSearching ? .noLeaguesFound : .noLeaguesAvailable))
+                            .font(.regular16)
+                            .foregroundColor(.secondary)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        ScrollView(showsIndicators: false) {
+                            LazyVStack(spacing: 12) {
+                                ForEach(viewModel.leagues, id: \.league.id) { item in
+                                    leagueRow(item)
+                                        .onAppear {
+                                            viewModel.loadMoreIfNeeded(currentItem: item)
+                                        }
+                                }
+
+                                if viewModel.isLoadingMore {
+                                    ProgressView()
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 8)
+                                }
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 14)
                         }
+                        .refreshable { await viewModel.loadLeagues(force: true) }
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 14)
                 }
-                .refreshable { await viewModel.loadLeagues(force: true) }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -65,6 +71,37 @@ struct LeaguesView: View {
             HeaderView(title: String(localized: .leagues))
         }
         .task { await viewModel.loadIfNeeded() }
+    }
+
+    private var searchBar: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 16, weight: .regular))
+                .foregroundColor(.gray)
+            TextField(String(localized: .searchLeagues), text: $viewModel.searchText)
+                .font(.regular16)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            if !viewModel.searchText.isEmpty {
+                Button {
+                    viewModel.searchText = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 16, weight: .regular))
+                        .foregroundColor(.gray.opacity(0.7))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white)
+        )
+        .padding(.horizontal, 16)
+        .padding(.top, 12)
+        .padding(.bottom, 4)
     }
 
     private func leagueRow(_ item: AFLeagueResponse) -> some View {

@@ -12,6 +12,12 @@ final class LeaguesViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var isLoadingMore: Bool = false
+    @Published var searchText: String = "" {
+        didSet {
+            guard oldValue != searchText else { return }
+            applySearch()
+        }
+    }
 
     private let leagueService: LeagueServiceType
     private let batchSize: Int
@@ -43,10 +49,10 @@ final class LeaguesViewModel: ObservableObject {
 
         do {
             let items = try await leagueService.getLeagues()
-            allLeagues = prioritizeLeagues(items)
+            allLeagues = preferredLeagues(items)
             leagues = []
             nextIndex = 0
-            appendNextBatch()
+            applySearch()
             lastLoadedAt = Date()
         } catch {
             allLeagues = []
@@ -55,8 +61,12 @@ final class LeaguesViewModel: ObservableObject {
         }
     }
 
+    var isSearching: Bool {
+        !trimmedQuery.isEmpty
+    }
+
     var hasMoreLeagues: Bool {
-        nextIndex < allLeagues.count
+        !isSearching && nextIndex < allLeagues.count
     }
 
     func loadMoreIfNeeded(currentItem: AFLeagueResponse) {
@@ -66,6 +76,31 @@ final class LeaguesViewModel: ObservableObject {
         isLoadingMore = true
         appendNextBatch()
         isLoadingMore = false
+    }
+
+    private var trimmedQuery: String {
+        searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// Refreshes `leagues` for the current search state: filters the full
+    /// preferred list when searching, otherwise paginates from the start.
+    private func applySearch() {
+        let query = trimmedQuery
+        if query.isEmpty {
+            nextIndex = 0
+            leagues = []
+            appendNextBatch()
+        } else {
+            leagues = allLeagues.filter { matches($0, query: query) }
+        }
+    }
+
+    private func matches(_ item: AFLeagueResponse, query: String) -> Bool {
+        if item.league.name.localizedCaseInsensitiveContains(query) { return true }
+        if let country = item.country?.name, country.localizedCaseInsensitiveContains(query) {
+            return true
+        }
+        return false
     }
 
     private func appendNextBatch() {
@@ -81,18 +116,22 @@ final class LeaguesViewModel: ObservableObject {
         return Date().timeIntervalSince(lastLoadedAt) > staleInterval
     }
 
-    private func prioritizeLeagues(_ items: [AFLeagueResponse]) -> [AFLeagueResponse] {
+    /// Keeps only the preferred/featured leagues, ordered by their position
+    /// in `preferredLeagueIDs`, then alphabetically as a tie-breaker.
+    private func preferredLeagues(_ items: [AFLeagueResponse]) -> [AFLeagueResponse] {
         let priorityMap = Dictionary(uniqueKeysWithValues: AppConstants.preferredLeagueIDs.enumerated().map { ($1, $0) })
-        return items.sorted { lhs, rhs in
-            let lhsPriority = priorityMap[lhs.league.id] ?? Int.max
-            let rhsPriority = priorityMap[rhs.league.id] ?? Int.max
+        return items
+            .filter { priorityMap[$0.league.id] != nil }
+            .sorted { lhs, rhs in
+                let lhsPriority = priorityMap[lhs.league.id] ?? Int.max
+                let rhsPriority = priorityMap[rhs.league.id] ?? Int.max
 
-            if lhsPriority != rhsPriority {
-                return lhsPriority < rhsPriority
+                if lhsPriority != rhsPriority {
+                    return lhsPriority < rhsPriority
+                }
+
+                return lhs.league.name.localizedCaseInsensitiveCompare(rhs.league.name) == .orderedAscending
             }
-
-            return lhs.league.name.localizedCaseInsensitiveCompare(rhs.league.name) == .orderedAscending
-        }
     }
 }
 
