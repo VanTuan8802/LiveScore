@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import Factory
 
 struct MatcheDetailView: View {
     enum DetailTab: String, CaseIterable, Identifiable {
@@ -18,6 +19,7 @@ struct MatcheDetailView: View {
     }
 
     @StateObject private var viewModel: MatcheDetailViewModel
+    @InjectedObject(\.favoritesStore) private var favoritesStore: FavoritesStore
     @State private var selectedTab: DetailTab = .lineup
     @State private var expandedLineupIDs: Set<Int> = []
 
@@ -111,11 +113,11 @@ struct MatcheDetailView: View {
             }
 
             HStack(spacing: 14) {
-                teamBlock(name: viewModel.match.teams.home.name, logo: viewModel.match.teams.home.logo)
+                teamBlock(viewModel.match.teams.home)
                 Text(scoreText)
                     .font(.semibold30)
                     .foregroundColor(Color("primary"))
-                teamBlock(name: viewModel.match.teams.away.name, logo: viewModel.match.teams.away.logo)
+                teamBlock(viewModel.match.teams.away)
             }
 
             Text(statusText)
@@ -139,14 +141,26 @@ struct MatcheDetailView: View {
         )
     }
 
-    private func teamBlock(name: String, logo: String?) -> some View {
+    private func teamBlock(_ team: AFTeamSummary) -> some View {
         VStack(spacing: 8) {
-            RemoteImage(urlString: logo, size: 58)
-            Text(name)
+            RemoteImage(urlString: team.logo, size: 58)
+            Text(team.name)
                 .font(.semibold16)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: 120)
+
+            Button {
+                favoritesStore.toggle(
+                    FavoriteTeam(id: team.id, name: team.name, logo: team.logo)
+                )
+            } label: {
+                let isFav = favoritesStore.isFavorite(team.id)
+                Image(systemName: isFav ? "star.fill" : "star")
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(isFav ? .yellow : .gray.opacity(0.7))
+            }
+            .buttonStyle(.plain)
         }
     }
 

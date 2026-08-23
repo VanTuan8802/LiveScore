@@ -53,3 +53,12 @@ extension Container {
         }.singleton
     }
 }
+
+/// Favorites
+extension Container {
+    var favoritesStore: Factory<FavoritesStore> {
+        Factory(self) { @MainActor in
+            FavoritesStore()
+        }.singleton
+    }
+}

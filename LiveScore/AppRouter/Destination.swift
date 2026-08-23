@@ -18,6 +18,7 @@ enum Destination: Equatable {
     case leagues
     case leagueDetail(leagueId: Int, leagueName: String)
     case favorites
+    case addFavoriteTeam
     case setting
 }
 
@@ -29,6 +30,7 @@ extension Destination {
         case .leagues: return "leagues"
         case .leagueDetail(let leagueId, _): return "leagueDetail_\(leagueId)"
         case .favorites: return "favorites"
+        case .addFavoriteTeam: return "addFavoriteTeam"
         case .setting: return "setting"
         }
     }
@@ -48,6 +50,8 @@ extension Navigation {
             LeagueDetailView(leagueId: leagueId, leagueName: leagueName)
         case .favorites:
             FavoritesView()
+        case .addFavoriteTeam:
+            AddFavoriteTeamView()
         case .setting:
             MyTeamView()
         }

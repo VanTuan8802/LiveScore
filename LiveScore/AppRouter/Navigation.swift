@@ -284,7 +284,7 @@ final class Navigation: ObservableObject {
         screen(for: destinationWrapper)
             .toolbar(.hidden, for: .navigationBar)
             // Root tab screens keep the tab bar; pushed/presented screens hide it.
-            .toolbar(destinationWrapper.navigationType == nil ? .visible : .hidden, for: .tabBar)
+            .toolbar(destinationWrapper.navigationType == nil ? .automatic : .hidden, for: .tabBar)
             .onAppear { [weak self] in
                 guard let self = self else { return }
 

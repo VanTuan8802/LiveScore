@@ -295,6 +295,50 @@
         }
       }
     },
+    "add_favorite_team" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add team"
+          }
+        }
+      }
+    },
+    "no_teams_found" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No teams found."
+          }
+        }
+      }
+    },
+    "search_teams" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search teams"
+          }
+        }
+      }
+    },
+    "no_favorite_teams" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No favorite teams yet.\nTap the star on a team to add it here."
+          }
+        }
+      }
+    },
     "no_leagues_found" : {
       "extractionState" : "manual",
       "localizations" : {
