@@ -212,6 +212,17 @@
         }
       }
     },
+    "loading_stats" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading stats..."
+          }
+        }
+      }
+    },
     "match_details_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -291,6 +302,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No lineup available."
+          }
+        }
+      }
+    },
+    "no_stats_available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No stats available."
           }
         }
       }

@@ -4,12 +4,14 @@
 //
 
 import SwiftUI
+import Factory
 
 struct LeagueDetailView: View {
     let leagueId: Int
     let leagueName: String
 
     @StateObject private var viewModel: LeagueDetailViewModel
+    @InjectedObject(\.app) private var app: AppManager
 
     init(leagueId: Int, leagueName: String) {
         self.leagueId = leagueId
@@ -53,13 +55,18 @@ struct LeagueDetailView: View {
                                 .padding(.top, 24)
                         } else {
                             ForEach(viewModel.selectedRoundFixtures) { match in
-                                CompactMatchRow(match: match)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 10)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .fill(Color.white)
-                                    )
+                                Button {
+                                    app.navi.push(.matcheDetail(match: match))
+                                } label: {
+                                    CompactMatchRow(match: match)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 10)
+                                }
+                                .buttonStyle(.plain)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.white)
+                                )
                             }
                         }
                     }

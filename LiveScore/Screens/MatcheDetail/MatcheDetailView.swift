@@ -11,6 +11,7 @@ import UIKit
 struct MatcheDetailView: View {
     enum DetailTab: String, CaseIterable, Identifiable {
         case lineup = "Lineup"
+        case stats = "Stats"
         case highlight = "Highlight"
 
         var id: String { rawValue }
@@ -68,6 +69,14 @@ struct MatcheDetailView: View {
                             errorMessage: viewModel.errorMessage,
                             lineups: viewModel.lineups,
                             expandedLineupIDs: $expandedLineupIDs
+                        )
+                    case .stats:
+                        StatsTab(
+                            isLoading: viewModel.isLoading,
+                            errorMessage: viewModel.errorMessage,
+                            statistics: viewModel.statistics,
+                            homeTeamId: viewModel.match.teams.home.id,
+                            awayTeamId: viewModel.match.teams.away.id
                         )
                     case .highlight:
                         HighLightTab(
